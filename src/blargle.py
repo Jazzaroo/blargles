@@ -138,8 +138,8 @@ while True:
 while len(blarglist)>0:
     print("Day %d. Another great day to be a Blargle!" % (day))
     DispBlargles(blarglist)
-#    time.sleep(3) #causes a delay before day gets rolling
+    time.sleep(3) #causes a delay before day gets rolling
     BlargLife(blarglist) #everything that happens to Blargles, happens here
     check_civstatus(blarglist) #if there are no more Blargles, it declares the end
     day += 1 #increments the day
-#    time.sleep(3) #causes a delay before next day
+    time.sleep(3) #causes a delay before next day
