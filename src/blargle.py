@@ -115,8 +115,15 @@ while True:
         CreateBlargle(blarglist)
     elif user_choice == "2":
         DisplayBlargles(blarglist)
-        user_pick = int(input("Select the number of the Blargle you would like to alter.\n"))
-        blarglist[user_pick].mood = input("How does %s feel now?\n" % (blarglist[user_pick].name))
+        while True:
+            try:
+                user_pick = int(input("Select the number of the Blargle you would like to alter.\n"))
+                blarglist[user_pick].mood = input("How does %s feel now?\n" % (blarglist[user_pick].name))
+                break
+            except ValueError:
+                print("That's crazy! Try again.")
+            except:
+                print("Invalid selection. Try again.")
         print("%s is feeling %s." % (blarglist[user_pick].name, blarglist[user_pick].mood))
     elif user_choice == "3":
         DisplayBlargles(blarglist)
