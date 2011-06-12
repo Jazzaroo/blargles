@@ -23,8 +23,8 @@ def BlargGen (blarglist, blarg):
 def try_Knockboots(blarglist, blarg):
     print("%s is getting randy! Is someone else feeling the same?" % (blarg.name))
     for a_blarg in blarglist:
-        if a_blarg.babyname == "" and a_blarg.randiness >= 6 and a_blarg.name != blarg.name: #cause pregos can't get randy and we don't want Blargles to self-seed
-            blargdad = a_blarg.name
+        if a_blarg.randiness >= 6 and a_blarg.name != blarg.name: #cause we don't want Blargles to self-seed
+            blargdad = a_blarg.name #tracks the name of the baby's father
             partner = True # boot-knocking to commence shortly
             break
         else: 
@@ -36,7 +36,7 @@ def try_Knockboots(blarglist, blarg):
         blarg.randiness = 0
         return blargdad
     if partner == False:
-        print("No, it seems not.")
+        print("No, it seems not.") #sad Blargle!
 
 def DisplayBlargles(blarglist):
     print ("List of Blargles.\n")
@@ -50,15 +50,17 @@ def DispBlargles(blarglist):
 
 def BlargLife(blarglist):
     for index, blarg in enumerate(blarglist):
-        if blarg.babyname != "":
-            BlargGen(blarglist, blarg)
-        if blarg.randiness >= 12:
-            try_Knockboots(blarglist, blarg)
-        blarg.randiness += random.randint(0,3)
-        if blarg.hunger >= 10:
-            Consume(blarglist, index, blarg)
-            Reap(blarglist)
-        blarg.hunger += random.randint(0,3)
+        if blarg.babyname != "": #checks for pregnancy
+            BlargGen(blarglist, blarg) #birthing function
+    for index, blarg in enumerate(blarglist):
+        if blarg.randiness >= 12: #checks for randiness
+            try_Knockboots(blarglist, blarg) #tries to make babies
+        blarg.randiness += random.randint(0,3) #increments randiness, possibly
+    for index, blarg in enumerate(blarglist):
+        if blarg.hunger >= 10: #checks for hunger
+            Consume(blarglist, index, blarg) #feeding time
+            Reap(blarglist) #since only being eaten kills Blargles, this only needs to be here
+        blarg.hunger += random.randint(0,3) #increments hunger
 
 def Reap(blarglist):
     toreap = []
@@ -67,7 +69,7 @@ def Reap(blarglist):
             print("The Ferryman has taken %s to the Underworld." % a_blarg.name)
             toreap.append(a_blarg)
     for victim in toreap:
-        blarglist.remove(victim)
+        blarglist.remove(victim) #deletes the dead ones
                 
 def Consume(blarglist, index, blarg):
     print("%s is getting hungry." % (blarg.name))
@@ -76,7 +78,7 @@ def Consume(blarglist, index, blarg):
         while winner == index:
             winner = random.randint(0, len(blarglist)-1)
         print("Chomp! %s ate %s!" % (blarg.name, blarglist[winner].name))
-        blarglist[winner].life = False
+        blarglist[winner].life = False #kills the 'winner'
         blarg.hunger = 0
     elif len(blarglist) == 1:
         print("The last Blargle, %s, has died of starvation!" % blarg.name)
@@ -91,7 +93,7 @@ class Blargle:#initial state of blargles
     name = ""
     randiness = 5
     hunger = 0
-    babyname = "" ##used to be prego flag
+    babyname = "" #used to be prego flag
     life = True
     def __init__(self, newname = "blargie", newmood = "calm"):
         self.name = newname
@@ -104,7 +106,7 @@ print("Welcome to the Blargle Generator, perhaps more famously known as the Blar
 blarglist = [ Blargle("John", "angry"), Blargle("Susan", "calm"),
               Blargle("William", "stupid"), Blargle("Jessie", "irradiated"),
               Blargle("Markos", "peeved"), Blargle("Angela", "livid") ]
-
+#an initial set of Blargles for testing
 while True:
     user_choice = input("Please select an option from the following:\n"
                         "1) Create a Blargle.\n"
@@ -136,8 +138,8 @@ while True:
 while len(blarglist)>0:
     print("Day %d. Another great day to be a Blargle!" % (day))
     DispBlargles(blarglist)
-    time.sleep(3) #causes a delay before day gets rolling
+#    time.sleep(3) #causes a delay before day gets rolling
     BlargLife(blarglist) #everything that happens to Blargles, happens here
     check_civstatus(blarglist) #if there are no more Blargles, it declares the end
     day += 1 #increments the day
-    time.sleep(3) #causes a delay before next day
+#    time.sleep(3) #causes a delay before next day
